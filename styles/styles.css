@@ -1,0 +1,280 @@
+@font-face {
+    font-family: vazirNormal;
+    src: url('../fonts/vazir.eot');
+    src: url('../fonts/vazir.eot?#iefix') format('embedded-opentype'), url('../fonts/vazir.woff2') format('woff2'), url('../fonts/vazir.woff') format('woff'), url('../fonts/vazir.ttf') format('truetype');
+    font-weight: normal;
+    font-display: swap;
+}
+
+
+body {
+    font-family: vazirNormal;
+    direction: rtl;
+    background-color: #dfdfdf;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border: 0;
+}
+
+
+.sidebar {
+    background-color: #293462;
+    padding: 0;
+    position: relative;
+}
+
+.sidebar .devider {
+    border-bottom: 1px solid #445496;
+}
+
+.sidebar .logo {
+    text-align: center;
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.sidebar .searchbox {
+    text-align: center;
+    padding: 25px 0;
+    position: relative;
+}
+
+.sidebar .searchbox input {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    border: 0;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.sidebar .searchbox svg {
+    position: absolute;
+    top: 37px;
+    left: 28px;
+    color: #445496;
+    font-size: 18px;
+
+}
+
+.sidebar #menu {
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar #menu .menu-item {
+    list-style-type: none;
+    color: #fff;
+}
+
+.sidebar #menu .menu-item svg {
+    font-size: 19px;
+    vertical-align: -5px;
+    padding-left: 8px;
+}
+
+.sidebar #menu .menu-item a {
+    padding: 15px 10px;
+    display: block;
+    font-size: 17px;
+    text-decoration: none;
+    color: #fff;
+    border-right: 3px solid #293462;
+    transition: background-color 0.2s ease-out;
+
+}
+
+.sidebar #menu .menu-item a:hover {
+    background-color: #34427a;
+    border-right: 3px solid #FEDB39;
+
+}
+
+.sidebar .upgrade {
+    display: block;
+    width: 100%;
+    position: absolute;
+    bottom: 30px;
+}
+
+.sidebar .upgrade a {
+    width: 90%;
+    display: block;
+    color: #FEDB39;
+    text-decoration: none;
+    margin: 0 auto;
+    border: 1px solid #FEDB39;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar .upgrade svg {
+    padding-left: 5px;
+    font-size: 17px;
+}
+
+.sidebar .upgrade a:hover {
+    border: 1px solid #FEDB39;
+    background-color: #FEDB39;
+    color: #293462;
+}
+
+/* content */
+.content .bg {
+    background: url('../images/fff.png') center;
+    width: 100%;
+    height: 350px;
+    background-size: cover;
+    background-color: rgb(76, 0, 255);
+    position: relative;
+}
+
+
+.content .bg .profile {
+    background-color: rgba(41, 52, 98, 0.9);
+    color: #fff;
+    padding: 8px;
+    display: inline-block;
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.content .bg .profile:hover {
+    cursor: pointer;
+    background-color: rgba(41, 52, 98, 1);
+}
+
+.content .bg .profile svg {
+    padding-left: 5px;
+    font-size: 14px;
+    vertical-align: -3px;
+}
+
+.content .titles {
+    position: absolute;
+    top: 80px;
+    color: #fff;
+    right: 50px;
+}
+
+.content .title {
+    text-shadow: 2px 2px 5px #293462;
+}
+
+.content .titles h1 {
+    font-size: 50px;
+}
+
+.content .titles h2 {
+    font-size: 19px;
+    margin-top: 5px;
+}
+
+.content .mycards {
+    position: relative;
+    top: -100px;
+}
+
+.content .box {
+    background-color: #fff;
+    border-radius: 15px;
+    width: 100%;
+    min-height: 250px;
+    display: inline-block;
+
+}
+.content .notes {
+    padding-bottom: 10px;
+}
+.content .notes h2{
+    padding: 20px 20px 10px 0;
+    font-size: 25px;
+    /* border-bottom: 1px dashed #6f789c; */
+}
+
+.content .notes h2 svg{
+    opacity: 0.8;
+    font-size: 22px;
+    padding-left: 5px;
+    vertical-align: -2px;
+}
+
+
+.content .list{
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+    /* background-color: red; */
+    /* padding: 0 50px 0 0; */
+    /* margin: 0; */
+}
+
+.content .list li {
+    list-style-type: none;
+    padding: 15px;
+    border-bottom: 1px solid #e6e6e6
+}
+
+.content .list li:last-child {
+    border-bottom: none;
+}
+
+.content .done li{
+    text-decoration: line-through;
+}
+
+.content .done li svg{
+    font-size: 16px !important;
+    vertical-align: -5px !important;
+}
+.content .done a:hover svg{
+    color: #D61C4E !important;
+}
+
+.content .list li svg {
+    color: #575757;
+    padding-left: 7px;
+    font-size: 20px;
+    vertical-align: -6px;
+}
+
+.content .list li a:hover svg{
+    color: green;
+}
+
+.content .quick-access{
+    text-align: center;
+}
+.content .quick-access h2{
+    padding: 20px 20px 10px 0;
+    font-size: 25px;
+    text-align: right;
+}
+
+.content .quick-access h2 svg{
+    opacity: 0.8;
+    font-size: 22px;
+    padding-left: 5px;
+    vertical-align: -5px;
+}
+.content .quick-access .note {
+    width: 96%;
+    margin: 0 auto;
+    resize: none;
+    border-radius: 10px;
+    height: 160px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: #575757;
+}
+
