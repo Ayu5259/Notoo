@@ -19,7 +19,7 @@
                         <?php showMessage(); ?>
                         <form action="inc/functions.php" method="post" class="text-center">
                             <input type="text" name="username" class="form-control w-75 mx-auto" placeholder="نام کاربری">
-                            <input type="text" name="password" class="form-control w-75 mx-auto mt-2" placeholder="کلمه عبور">
+                            <input type="password" name="password" class="form-control w-75 mx-auto mt-2" placeholder="کلمه عبور">
                             <input type="submit" name="do-login" value="ورود به حساب کاربری" class="btn btn-success w-75 mt-3">
                         </form>
                     </div>

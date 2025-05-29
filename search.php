@@ -24,33 +24,26 @@ $userData = getUserData(); ?>
                 </div>
             </div>
 
-            <div class="row mycards mx-auto">
-                <div class="col-8">
-                    <div class="box notes shadow-md">
-                        <h2><i class="fas fa-calendar-day"></i>خلاصه امروز</h2>
+            <div class="row mycards mx-auto notes">
+                <div class="col-lg-12">
+                    <div class="box">
+                        <h2><i class="fas fa-search"></i>جستجو</h2>
                         <ul class="list">
                             <?php
-                            $notes = getUserNotes(3);
-                            foreach ($notes as $note) {
-                                echo "<li>" . $note['note_text'] . "</li>";
-                            }
+                            $searchResults = getSearchResult();
+                            foreach ($searchResults as $searchResult) {
                             ?>
+                                <li><?php echo $searchResult['note_text']; ?></li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="box quick-access shadow-md">
-                        <h2><i class="fas fa-circle-plus"></i>یادداشت سریع</h2>
-                        <form action="inc/functions.php" method="POST">
-                            <input type="text" name="user-note" class="note" placeholder="بنویسید و enter بزنید ...">
-                        </form>
-                    </div>
-                </div>
+
+
             </div>
 
 
         </div>
     </div>
 </div>
-
 <?php require_once 'sections/footer.php'; ?>

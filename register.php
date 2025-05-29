@@ -5,7 +5,6 @@
             <h2 class="logo">یادداشت ها</h2>
             <div class="devider"></div>
             <?php require_once 'sections/menu.php' ?>
-
         </div>
         <div class="col-lg-10 col-md-9 content g-0">
             <div class="bg">

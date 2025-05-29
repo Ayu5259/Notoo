@@ -1,15 +1,14 @@
 <?php require_once 'sections/header.php';
-checkLogin(); ?>
+checkLogin();
+$userData = getUserData();
+?>
 <div class="container-fluid min-vh-100 d-flex flex-column">
     <div class="row flex-grow-1">
         <div class="col-lg-2 col-md-3 sidebar">
             <h2 class="logo">یادداشت ها</h2>
             <div class="devider"></div>
             <div class="searchbox">
-                <form action="">
-                    <a href="#"><i class="fas fa-magnifying-glass"></i></a>
-                    <input type="text" placeholder="جستجو">
-                </form>
+                <?php require_once 'sections/search.php' ?>
             </div>
             <?php require_once 'sections/menu.php' ?>
 
@@ -21,8 +20,8 @@ checkLogin(); ?>
             <div class="bg">
                 <a class="profile"><i class="fas fa-user"></i>مشاهده پروفایل</a>
                 <div class="titles">
-                    <h1 class="title">سلام عزیزم</h1>
-                    <h2 class="title">بهترین برنامه، بی‌برنامگیه...</h2>
+                    <h1 class="title"><?php echo $userData['title'] ?> <?php echo getUserDisplayname(); ?></h1>
+                    <h2 class="title"><?php echo $userData['subtitle'] ?></h2>
                 </div>
             </div>
 
@@ -31,11 +30,12 @@ checkLogin(); ?>
                     <div class="box">
                         <h2><i class="fas fa-calendar-day"></i>همه یادداشت ها</h2>
                         <ul class="list">
-                            <li><a href="#"><i class="fas fa-square-check"></i></a>انجام خرید فلان</li>
-                            <li><a href="#"><i class="fas fa-square-check"></i></a>انجام خرید فلان</li>
-                            <li><a href="#"><i class="fas fa-square-check"></i></a>انجام خرید فلان</li>
-                            <li><a href="#"><i class="fas fa-square-check"></i></a>انجام خرید فلان</li>
-                            <li><a href="#"><i class="fas fa-square-check"></i></a>انجام خرید فلان</li>
+                            <?php
+                            $notes = getUserNotes();
+                            foreach ($notes as $note) {
+                            ?>
+                                <li><a href="?done=<?php echo $note['id'] ?>"><i class="fas fa-square-check"></i></a><?php echo $note['note_text'] ?></li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
@@ -44,10 +44,12 @@ checkLogin(); ?>
                     <div class="box">
                         <h2><i class="fas fa-square-check"></i>انجام شده ها</h2>
                         <ul class="list done">
-                            <li><a href="#"><i class="fas fa-trash"></i></a>تست</li>
-                            <li><a href="#"><i class="fas fa-trash"></i></a>تست</li>
-                            <li><a href="#"><i class="fas fa-trash"></i></a>تست</li>
-                            <li><a href="#"><i class="fas fa-trash"></i></a>تست</li>
+                            <?php
+                            $doneNotes = getDoneNotes();
+                            foreach ($doneNotes as $doneNote) {
+                            ?>
+                                <li><a href="?delete=<?php echo $doneNote['id']; ?>"><i class="fas fa-trash"></i></a><?php echo $doneNote['note_text'] ?></li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
