@@ -64,7 +64,7 @@ if (isset($_POST['user-note'])) {
     $userId = getUserId();
 
     // vars are Case sensitive
-    $addNote = mysqli_query($db, "INSERT INTO notes (note_text, user_id) VALUES ('$userNote', '$userId')");
+    $addNote = mysqli_query($db, "INSERT INTO notess (note_text, user_id) VALUES ('$userNote', '$userId')");
     if ($addNote) {
         header("Location: ../index.php");
     }
@@ -107,9 +107,9 @@ function getUserNotes($limit = false)
 
     $userId = getUserId();
     if ($limit) { // if limit was not false
-        $getNotes = mysqli_query($db, "SELECT * FROM notes WHERE user_id='$userId' AND is_done='0' ORDER BY id DESC LIMIT $limit");
+        $getNotes = mysqli_query($db, "SELECT * FROM notess WHERE user_id='$userId' AND is_done='0' ORDER BY id DESC LIMIT $limit");
     } else {
-        $getNotes = mysqli_query($db, "SELECT * FROM notes WHERE user_id='$userId' AND is_done='0' ORDER BY id DESC");
+        $getNotes = mysqli_query($db, "SELECT * FROM notess WHERE user_id='$userId' AND is_done='0' ORDER BY id DESC");
     }
 
     $userNotes = [];
@@ -127,7 +127,7 @@ function getDoneNotes()
     global $db;
     $userId = getUserId();
 
-    $getNotes = mysqli_query($db, "SELECT * FROM notes WHERE user_id='$userId' AND is_done='1' ORDER BY id DESC");
+    $getNotes = mysqli_query($db, "SELECT * FROM notess WHERE user_id='$userId' AND is_done='1' ORDER BY id DESC");
 
     $userNotes = [];
     while ($notes = mysqli_fetch_array($getNotes)) {
@@ -168,7 +168,7 @@ function getUserDisplayname()
 if (isset($_GET['done'])) {
     // echo $_GET['done'];
     $noteId = $_GET['done']; // note id
-    $updateNote = mysqli_query($db, "UPDATE notes SET is_done='1' WHERE id='$noteId'");
+    $updateNote = mysqli_query($db, "UPDATE notess SET is_done='1' WHERE id='$noteId'");
     if ($updateNote) {
         header("Location: notes.php");
     }
@@ -177,7 +177,7 @@ if (isset($_GET['done'])) {
 // delete note
 if (isset($_GET['delete'])) {
     $noteId = $_GET['delete'];
-    $deleteNote = mysqli_query($db, "DELETE FROM notes WHERE id='$noteId'");
+    $deleteNote = mysqli_query($db, "DELETE FROM notess WHERE id='$noteId'");
     if ($deleteNote) {
         header("Location: notes.php");
     }
