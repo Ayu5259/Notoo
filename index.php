@@ -42,6 +42,15 @@ $userData = getUserData(); ?>
                     <div class="box quick-access shadow-md">
                         <h2><i class="fas fa-circle-plus"></i>یادداشت سریع</h2>
                         <form action="inc/functions.php" method="POST">
+                            <select name="category" class="form-control mb-2">
+                                <option value="">بدون دسته‌بندی</option>
+                                <?php
+                                $categories = getUserCategories();
+                                foreach ($categories as $category) {
+                                    echo '<option value="' . $category['id'] . '">' . $category['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
                             <input type="text" name="user-note" class="note" placeholder="بنویسید و enter بزنید ...">
                         </form>
                     </div>

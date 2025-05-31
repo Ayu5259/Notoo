@@ -45,6 +45,43 @@ $userData = getUserData();
                         </form>
                     </div>
                 </div>
+
+                <!-- Category Management Section -->
+                <div class="col-lg-12 mt-4">
+                    <div class="box">
+                        <h2><i class="fas fa-tags"></i>مدیریت دسته‌بندی‌ها</h2>
+                        <div class="row p-4">
+                            <div class="col-12">
+                                <form action="inc/functions.php" method="post" class="mb-4">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <input type="text" name="category-name" class="form-control" placeholder="نام دسته‌بندی" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="color" name="category-color" class="form-control" value="#293462">
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="submit" name="add-category" class="btn btn-primary">افزودن دسته‌بندی</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12">
+                                <div class="categories-list">
+                                    <?php
+                                    $categories = getUserCategories();
+                                    foreach ($categories as $category) {
+                                        echo '<div class="category-item" style="border-right: 4px solid ' . $category['color'] . '">';
+                                        echo '<span class="category-name">' . $category['name'] . '</span>';
+                                        echo '<a href="?delete-category=' . $category['id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'آیا از حذف این دسته‌بندی اطمینان دارید؟\')"><i class="fas fa-trash"></i></a>';
+                                        echo '</div>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

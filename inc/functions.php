@@ -61,15 +61,35 @@ if (isset($_GET['logout'])) {
 // add note
 if (isset($_POST['user-note'])) {
     $userNote = $_POST['user-note'];
+    $categoryId = isset($_POST['category']) ? $_POST['category'] : null;
+    $dueDate = isset($_POST['due_date']) ? $_POST['due_date'] : null;
+    $reminderTime = isset($_POST['reminder_time']) ? $_POST['reminder_time'] : null;
+    $priority = isset($_POST['priority']) ? $_POST['priority'] : 'medium';
+    $estimatedTime = isset($_POST['estimated_time']) ? $_POST['estimated_time'] : null;
     $userId = getUserId();
 
-    // vars are Case sensitive
-    $addNote = mysqli_query($db, "INSERT INTO notess (note_text, user_id) VALUES ('$userNote', '$userId')");
+    $addNote = mysqli_query($db, "INSERT INTO notes (
+        note_text, 
+        user_id, 
+        category_id, 
+        due_date, 
+        reminder_time, 
+        priority, 
+        estimated_time
+    ) VALUES (
+        '$userNote', 
+        '$userId', 
+        " . ($categoryId ? "'$categoryId'" : "NULL") . ",
+        " . ($dueDate ? "'$dueDate'" : "NULL") . ",
+        " . ($reminderTime ? "'$reminderTime'" : "NULL") . ",
+        '$priority',
+        " . ($estimatedTime ? "'$estimatedTime'" : "NULL") . "
+    )");
+    
     if ($addNote) {
         header("Location: ../index.php");
     }
 }
-
 
 // set message
 function setMessage($message)
@@ -104,20 +124,25 @@ function checkLogin()
 function getUserNotes($limit = false)
 {
     global $db;
-
     $userId = getUserId();
-    if ($limit) { // if limit was not false
-        $getNotes = mysqli_query($db, "SELECT * FROM notess WHERE user_id='$userId' AND is_done='0' ORDER BY id DESC LIMIT $limit");
-    } else {
-        $getNotes = mysqli_query($db, "SELECT * FROM notess WHERE user_id='$userId' AND is_done='0' ORDER BY id DESC");
+    
+    $query = "SELECT notes.*, categories.name as category_name, categories.color as category_color 
+              FROM notes 
+              LEFT JOIN categories ON notes.category_id = categories.id 
+              WHERE notes.user_id='$userId' AND notes.is_done='0' 
+              ORDER BY notes.id DESC";
+              
+    if ($limit) {
+        $query .= " LIMIT $limit";
     }
-
+    
+    $getNotes = mysqli_query($db, $query);
+    
     $userNotes = [];
     while ($notes = mysqli_fetch_array($getNotes)) {
         $userNotes[] = $notes;
     }
-
-    // return as an array
+    
     return $userNotes;
 }
 
@@ -127,7 +152,7 @@ function getDoneNotes()
     global $db;
     $userId = getUserId();
 
-    $getNotes = mysqli_query($db, "SELECT * FROM notess WHERE user_id='$userId' AND is_done='1' ORDER BY id DESC");
+    $getNotes = mysqli_query($db, "SELECT * FROM notes WHERE user_id='$userId' AND is_done='1' ORDER BY id DESC");
 
     $userNotes = [];
     while ($notes = mysqli_fetch_array($getNotes)) {
@@ -168,7 +193,7 @@ function getUserDisplayname()
 if (isset($_GET['done'])) {
     // echo $_GET['done'];
     $noteId = $_GET['done']; // note id
-    $updateNote = mysqli_query($db, "UPDATE notess SET is_done='1' WHERE id='$noteId'");
+    $updateNote = mysqli_query($db, "UPDATE notes SET is_done='1' WHERE id='$noteId'");
     if ($updateNote) {
         header("Location: notes.php");
     }
@@ -177,7 +202,7 @@ if (isset($_GET['done'])) {
 // delete note
 if (isset($_GET['delete'])) {
     $noteId = $_GET['delete'];
-    $deleteNote = mysqli_query($db, "DELETE FROM notess WHERE id='$noteId'");
+    $deleteNote = mysqli_query($db, "DELETE FROM notes WHERE id='$noteId'");
     if ($deleteNote) {
         header("Location: notes.php");
     }
@@ -229,4 +254,143 @@ if (isset($_POST['do-update'])) {
         setMessage('اطلاعات با موفقیت بروزرسانی شد');
         header("Location: ../setting.php");
     }
+}
+
+// Get all categories for current user
+function getUserCategories() {
+    global $db;
+    $userId = getUserId();
+    
+    $getCategories = mysqli_query($db, "SELECT * FROM categories WHERE user_id='$userId' ORDER BY name ASC");
+    
+    $categories = [];
+    while ($category = mysqli_fetch_array($getCategories)) {
+        $categories[] = $category;
+    }
+    
+    return $categories;
+}
+
+// Add new category
+if (isset($_POST['add-category'])) {
+    $categoryName = $_POST['category-name'];
+    $categoryColor = $_POST['category-color'];
+    $userId = getUserId();
+    
+    $addCategory = mysqli_query($db, "INSERT INTO categories (name, color, user_id) VALUES ('$categoryName', '$categoryColor', '$userId')");
+    
+    if ($addCategory) {
+        setMessage('دسته‌بندی با موفقیت اضافه شد');
+        header("Location: ../setting.php");
+    }
+}
+
+// Delete category
+if (isset($_GET['delete-category'])) {
+    $categoryId = $_GET['delete-category'];
+    $userId = getUserId();
+    
+    // First check if category belongs to user
+    $checkCategory = mysqli_query($db, "SELECT * FROM categories WHERE id='$categoryId' AND user_id='$userId'");
+    
+    if (mysqli_num_rows($checkCategory) > 0) {
+        $deleteCategory = mysqli_query($db, "DELETE FROM categories WHERE id='$categoryId'");
+        if ($deleteCategory) {
+            setMessage('دسته‌بندی با موفقیت حذف شد');
+        }
+    }
+    header("Location: ../setting.php");
+}
+
+// Add time management functions
+function formatTime($minutes) {
+    $hours = floor($minutes / 60);
+    $mins = $minutes % 60;
+    return sprintf("%02d:%02d", $hours, $mins);
+}
+
+function getTimeRemaining($dueDate) {
+    if (!$dueDate) return null;
+    $now = new DateTime();
+    $due = new DateTime($dueDate);
+    $diff = $now->diff($due);
+    
+    if ($now > $due) {
+        return "Overdue";
+    }
+    
+    if ($diff->days > 0) {
+        return $diff->days . " days remaining";
+    } else if ($diff->h > 0) {
+        return $diff->h . " hours remaining";
+    } else {
+        return $diff->i . " minutes remaining";
+    }
+}
+
+// Add time tracking function
+if (isset($_POST['track-time'])) {
+    $noteId = $_POST['note_id'];
+    $timeSpent = $_POST['time_spent'];
+    $userId = getUserId();
+    
+    // Verify note belongs to user
+    $checkNote = mysqli_query($db, "SELECT * FROM notes WHERE id='$noteId' AND user_id='$userId'");
+    
+    if (mysqli_num_rows($checkNote) > 0) {
+        $updateTime = mysqli_query($db, "UPDATE notes SET time_spent = time_spent + '$timeSpent' WHERE id='$noteId'");
+        if ($updateTime) {
+            setMessage('زمان با موفقیت ثبت شد');
+        }
+    }
+    header("Location: ../notes.php");
+}
+
+// Get upcoming tasks
+function getUpcomingTasks($limit = 5) {
+    global $db;
+    $userId = getUserId();
+    
+    $query = "SELECT notes.*, categories.name as category_name, categories.color as category_color 
+              FROM notes 
+              LEFT JOIN categories ON notes.category_id = categories.id 
+              WHERE notes.user_id='$userId' 
+              AND notes.is_done='0' 
+              AND notes.due_date IS NOT NULL 
+              AND notes.due_date > NOW()
+              ORDER BY notes.due_date ASC 
+              LIMIT $limit";
+              
+    $getTasks = mysqli_query($db, $query);
+    
+    $tasks = [];
+    while ($task = mysqli_fetch_array($getTasks)) {
+        $tasks[] = $task;
+    }
+    
+    return $tasks;
+}
+
+// Get overdue tasks
+function getOverdueTasks() {
+    global $db;
+    $userId = getUserId();
+    
+    $query = "SELECT notes.*, categories.name as category_name, categories.color as category_color 
+              FROM notes 
+              LEFT JOIN categories ON notes.category_id = categories.id 
+              WHERE notes.user_id='$userId' 
+              AND notes.is_done='0' 
+              AND notes.due_date IS NOT NULL 
+              AND notes.due_date < NOW()
+              ORDER BY notes.due_date ASC";
+              
+    $getTasks = mysqli_query($db, $query);
+    
+    $tasks = [];
+    while ($task = mysqli_fetch_array($getTasks)) {
+        $tasks[] = $task;
+    }
+    
+    return $tasks;
 }
