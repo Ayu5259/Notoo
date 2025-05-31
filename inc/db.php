@@ -31,17 +31,6 @@ $alter_notes_table = "ALTER TABLE notes ADD COLUMN IF NOT EXISTS category_id INT
 
 mysqli_query($db, $alter_notes_table);
 
-// Add time management fields to notes table
-$alter_notes_time = "ALTER TABLE notes 
-    ADD COLUMN IF NOT EXISTS due_date DATETIME NULL,
-    ADD COLUMN IF NOT EXISTS reminder_time DATETIME NULL,
-    ADD COLUMN IF NOT EXISTS priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
-    ADD COLUMN IF NOT EXISTS estimated_time INT NULL,
-    ADD COLUMN IF NOT EXISTS time_spent INT DEFAULT 0,
-    ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP";
-
-mysqli_query($db, $alter_notes_time);
-
 // Remove priority_order column
 $remove_priority_order = "ALTER TABLE notes DROP COLUMN IF EXISTS priority_order";
 mysqli_query($db, $remove_priority_order);
