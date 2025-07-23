@@ -10,7 +10,24 @@
 body {
     font-family: vazirNormal;
     direction: rtl;
-    background-color: #dfdfdf;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.container-fluid {
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+}
+
+.row {
+    margin: 0;
+}
+
+.col, .col-lg-2, .col-lg-10, .col-md-3, .col-md-9 {
+    padding: 0;
 }
 
 input:focus, textarea:focus {
@@ -23,6 +40,8 @@ input:focus, textarea:focus {
     background-color: #293462;
     padding: 0;
     position: relative;
+    min-height: 100vh;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
 .sidebar .devider {
@@ -126,13 +145,20 @@ input:focus, textarea:focus {
 }
 
 /* content */
+.content {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
 .content .bg {
-    background: url('../images/fff.png') center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     width: 100%;
     height: 350px;
     background-size: cover;
-    background-color: rgb(76, 0, 255);
     position: relative;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -183,6 +209,8 @@ input:focus, textarea:focus {
 .content .mycards {
     position: relative;
     top: -100px;
+    padding: 0 20px;
+    margin: 0;
 }
 
 .content .box {
@@ -190,8 +218,10 @@ input:focus, textarea:focus {
     border-radius: 15px;
     width: 100%;
     min-height: 250px;
-    display: inline-block;
-
+    display: block;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
 }
 .content .notes {
     padding-bottom: 10px;
@@ -320,5 +350,186 @@ input:focus, textarea:focus {
     font-size: 12px;
     margin-right: 10px;
     color: #fff;
+}
+
+/* New Styles for Enhanced UI */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid #eee;
+    padding: 15px 20px;
+}
+
+.stats-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.stats-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background-color: rgba(255,255,255,0.2);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+}
+
+.table td {
+    vertical-align: middle;
+    border-color: #f1f3f4;
+}
+
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 15px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #e1e5e9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+    padding: 20px 25px;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+    padding: 20px 25px;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .content .mycards {
+        padding: 0 10px;
+    }
+    
+    .content .titles h1 {
+        font-size: 35px;
+    }
+    
+    .content .titles h2 {
+        font-size: 16px;
+    }
+    
+    .stats-card {
+        padding: 20px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content .box {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }
 

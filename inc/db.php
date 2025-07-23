@@ -6,31 +6,46 @@ $password = '';
 $dbname = 'notess';
 
 $db = mysqli_connect($servername, $username, $password, $dbname);
-mysqli_query($db, 'SET NAME utf8');
-// $db = mysqli_connect('localhost', 'root','', 'notess');
+mysqli_query($db, 'SET NAMES utf8');
 
 if (!$db) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Create categories table if it doesn't exist
-$create_categories_table = "CREATE TABLE IF NOT EXISTS categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    color VARCHAR(7) DEFAULT '#293462',
-    user_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-)";
+// تابع بررسی وجود ستون در جدول
+function columnExists($db, $table, $column, $dbname)
+{
+    $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_SCHEMA = '$dbname' 
+            AND TABLE_NAME = '$table' 
+            AND COLUMN_NAME = '$column'";
+    $result = mysqli_query($db, $sql);
+    return mysqli_num_rows($result) > 0;
+}
 
-mysqli_query($db, $create_categories_table);
+// حذف ستون priority_order از notes اگر وجود دارد
+if (columnExists($db, 'notes', 'priority_order', $dbname)) {
+    mysqli_query($db, "ALTER TABLE notes DROP COLUMN priority_order");
+}
 
-// Add category_id to notes table if it doesn't exist
-$alter_notes_table = "ALTER TABLE notes ADD COLUMN IF NOT EXISTS category_id INT,
-    ADD FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL";
+// افزودن ستون is_admin به users اگر وجود ندارد
+if (!columnExists($db, 'users', 'is_admin', $dbname)) {
+    mysqli_query($db, "ALTER TABLE users ADD COLUMN is_admin TINYINT(1) DEFAULT 0");
+}
 
-mysqli_query($db, $alter_notes_table);
+// افزودن ستون‌های زمان‌بندی به notes اگر وجود ندارند
+$note_columns = [
+    'due_date' => "DATE NULL",
+    'reminder_time' => "DATETIME NULL",
+    'priority' => "ENUM('low', 'medium', 'high') DEFAULT 'medium'",
+    'estimated_time' => "INT NULL"
+];
 
-// Remove priority_order column
-$remove_priority_order = "ALTER TABLE notes DROP COLUMN IF EXISTS priority_order";
-mysqli_query($db, $remove_priority_order);
+foreach ($note_columns as $column => $type) {
+    if (!columnExists($db, 'notes', $column, $dbname)) {
+        mysqli_query($db, "ALTER TABLE notes ADD COLUMN $column $type");
+    }
+}
+
+// نکته: ستون category_id قبلاً در اسکریپت SQL شما ایجاد شده و foreign key هم اضافه شده.
+// پس نیازی به بررسی یا افزودن مجدد نیست.

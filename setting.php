@@ -46,6 +46,27 @@ $userData = getUserData();
                     </div>
                 </div>
 
+                <!-- Password Change Section -->
+                <div class="col-lg-12 mt-4">
+                    <div class="box">
+                        <h2><i class="fas fa-key"></i>تغییر رمز عبور</h2>
+                        <form action="inc/functions.php" method="post" name="change-password">
+                            <div class="row p-4">
+                                <div class="col-4">
+                                    <input type="password" name="current-password" class="form-control" placeholder="رمز عبور فعلی" required>
+                                </div>
+                                <div class="col-4">
+                                    <input type="password" name="new-password" class="form-control" placeholder="رمز عبور جدید" required>
+                                </div>
+                                <div class="col-4">
+                                    <input type="password" name="confirm-password" class="form-control" placeholder="تکرار رمز عبور جدید" required>
+                                </div>
+                            </div>
+                            <input type="submit" name="change-password" class="btn btn-warning ms-4" value="تغییر رمز عبور">
+                        </form>
+                    </div>
+                </div>
+
                 <!-- Category Management Section -->
                 <div class="col-lg-12 mt-4">
                     <div class="box">
@@ -61,7 +82,7 @@ $userData = getUserData();
                                             <input type="color" name="category-color" class="form-control" value="#293462">
                                         </div>
                                         <div class="col-4">
-                                            <button type="submit" name="add-category" class="btn btn-primary">افزودن دسته‌بندی</button>
+                                            <input type="submit" name="add-category" class="btn btn-primary" value="افزودن دسته‌بندی">
                                         </div>
                                     </div>
                                 </form>
