@@ -1,17 +1,5 @@
 # یادداشت‌های هوشمند - سیستم مدیریت کارها و یادداشت‌ها
 
-//todo list:
-1 landing page
-1 Admin dashboard
-1 Time schedual
-1 Show time and date(dashboard)
-1 changeing pass as user(setting)
-1 convert string pass into password_hash
-0 be able to see pasword in login/registerform
-1 fix box boarder
-0 add the project to my git
-1 debugge categorizing
-1 fix sql problems
 
 ## معرفی پروژه
 
@@ -56,28 +44,28 @@
 
 ```
 noteboook/
-├── fonts/                 # فونت‌های فارسی
-├── images/               # تصاویر پروژه
-├── inc/                  # فایل‌های PHP
-│   ├── db.php           # تنظیمات دیتابیس
-│   └── functions.php    # توابع اصلی
-├── scripts/             # فایل‌های JavaScript
-├── sections/            # بخش‌های مشترک
-│   ├── header.php      # هدر سایت
-│   ├── footer.php      # فوتر سایت
-│   ├── menu.php        # منوی اصلی
-│   └── admin-menu.php  # منوی ادمین
-├── styles/             # فایل‌های CSS
-├── admin.php          # پنل مدیریت
-├── calendar.php       # صفحه تقویم
-├── index.php          # صفحه اصلی کاربران
-├── landing.php        # صفحه معرفی
-├── login.php          # صفحه ورود
-├── notes.php          # صفحه یادداشت‌ها
-├── register.php       # صفحه ثبت‌نام
-├── search.php         # صفحه جستجو
-├── setting.php        # صفحه تنظیمات
-└── README.md          # راهنمای پروژه
+├── fonts/                 
+├── images/               
+├── inc/                  
+│   ├── db.php           
+│   └── functions.php    
+├── scripts/            
+├── sections/           
+│   ├── header.php      
+│   ├── footer.php      
+│   ├── menu.php        
+│   └── admin-menu.php  
+├── styles/             
+├── admin.php          
+├── calendar.php       
+├── index.php          
+├── landing.php        
+├── login.php          
+├── notes.php          
+├── register.php      
+├── search.php        
+├── setting.php       
+└── README.md          
 ```
 
 ## امکانات ادمین
